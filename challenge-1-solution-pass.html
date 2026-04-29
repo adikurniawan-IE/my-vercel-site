@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Even/Odd Checker</title>
+</head>
+<body>
+  <p>hello world</p>
+
+  <input type="text" id="number-input" />
+  <button id="check-button">Check</button>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById('check-button').addEventListener('click', function () {
+      const raw = document.getElementById('number-input').value.trim();
+      const result = document.getElementById('result');
+
+      // Empty input
+      if (raw === '') {
+        result.textContent = 'not sure';
+        return;
+      }
+
+      // Check if it's a valid integer (whole number, no decimals)
+      // Must match: optional minus, then one or more digits, nothing else
+      if (!/^-?\d+$/.test(raw)) {
+        result.textContent = 'not sure';
+        return;
+      }
+
+      // Use BigInt to handle very large numbers
+      const num = BigInt(raw);
+
+      if (num % 2n === 0n) {
+        result.textContent = 'even';
+      } else {
+        result.textContent = 'odd';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Even/Odd Checker</title>
+</head>
+<body>
+  <p>hello world</p>
+
+  <input type="text" id="number-input" />
+  <button id="check-button">Check</button>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById('check-button').addEventListener('click', function () {
+      const raw = document.getElementById('number-input').value;
+      const result = document.getElementById('result');
+      const num = Number(raw);
+
+      // BUG 1: doesn't handle empty input — Number('') is 0, so it says "even"
+      // BUG 2: doesn't handle decimals — Number('2.5') is 2.5, and 2.5 % 2 !== 0, so it says "odd" instead of "not sure"
+      // BUG 3: Number('999999999999999') works, but larger numbers lose precision with regular Number type
+
+      if (isNaN(num)) {
+        result.textContent = 'not sure';
+      } else if (num % 2 === 0) {
+        result.textContent = 'even';
+      } else {
+        result.textContent = 'odd';
+      }
+    });
+  </script>
+</body>
+</html>
