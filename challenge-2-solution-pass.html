@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Form Validation</title>
+</head>
+<body>
+  <p>hello world</p>
+
+  <input type="text" id="number-input" />
+  <button id="check-button">Check</button>
+  <p id="result"></p>
+
+  <form id="registration-form">
+    <input type="text" id="name-input" />
+    <span id="name-error"></span>
+
+    <input type="text" id="email-input" />
+    <span id="email-error"></span>
+
+    <input type="text" id="mobile-input" />
+    <span id="mobile-error"></span>
+
+    <button type="submit" id="submit-button">Register</button>
+  </form>
+  <p id="success-message"></p>
+
+  <script>
+    // Challenge 1 — Even/Odd (kept from previous challenge)
+    document.getElementById('check-button').addEventListener('click', function () {
+      const raw = document.getElementById('number-input').value.trim();
+      const result = document.getElementById('result');
+      if (raw === '') { result.textContent = 'not sure'; return; }
+      if (!/^-?\d+$/.test(raw)) { result.textContent = 'not sure'; return; }
+      const num = BigInt(raw);
+      result.textContent = num % 2n === 0n ? 'even' : 'odd';
+    });
+
+    // Challenge 2 — Form Validation
+    document.getElementById('registration-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name-input').value.trim();
+      const email = document.getElementById('email-input').value.trim();
+      const mobile = document.getElementById('mobile-input').value.trim();
+
+      const nameError = document.getElementById('name-error');
+      const emailError = document.getElementById('email-error');
+      const mobileError = document.getElementById('mobile-error');
+      const successMessage = document.getElementById('success-message');
+
+      // Reset all
+      nameError.textContent = '';
+      emailError.textContent = '';
+      mobileError.textContent = '';
+      successMessage.textContent = '';
+
+      let valid = true;
+
+      // Name: required, min 2 characters
+      if (!name || name.length < 2) {
+        nameError.textContent = 'Name must be at least 2 characters';
+        valid = false;
+      }
+
+      // Email: required, valid format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        emailError.textContent = 'Please enter a valid email';
+        valid = false;
+      }
+
+      // Mobile: required, starts with "04", exactly 10 digits
+      const mobileRegex = /^04\d{8}$/;
+      if (!mobile || !mobileRegex.test(mobile)) {
+        mobileError.textContent = 'Mobile must start with 04 and be 10 digits';
+        valid = false;
+      }
+
+      if (valid) {
+        successMessage.textContent = 'Registration successful';
+      }
+    });
+  </script>
+</body>
+</html>
